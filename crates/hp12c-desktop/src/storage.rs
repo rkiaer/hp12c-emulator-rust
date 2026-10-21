@@ -18,11 +18,19 @@ pub struct Settings {
     pub position: Option<[f32; 2]>,
     /// Janela "Registradores" aberta.
     pub show_registers: bool,
+    /// Janela "Programa" aberta.
+    pub show_program: bool,
 }
 
 impl Default for Settings {
     fn default() -> Self {
-        Self { zoom: crate::app::DEFAULT_ZOOM, always_on_top: false, position: None, show_registers: false }
+        Self {
+            zoom: crate::app::DEFAULT_ZOOM,
+            always_on_top: false,
+            position: None,
+            show_registers: false,
+            show_program: false,
+        }
     }
 }
 

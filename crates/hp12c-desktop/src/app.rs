@@ -1,6 +1,7 @@
 //! Janela principal: liga mouse/teclado ao núcleo e desenha o resultado.
 
 use crate::storage::{self, Settings};
+use crate::program_window::ProgramEditor;
 use crate::{fonts, icon, input, registers, render};
 use std::sync::Arc;
 use eframe::egui::{self, Sense, Vec2, ViewportCommand, WindowLevel};
@@ -41,6 +42,10 @@ pub struct App {
     show_registers: bool,
     /// Posição inicial da janela de registradores (ao lado da calculadora).
     registers_pos: Option<[f32; 2]>,
+    /// Janela "Programa" aberta, sua posição inicial e o estado do editor.
+    show_program: bool,
+    program_pos: Option<[f32; 2]>,
+    program_editor: ProgramEditor,
     window_icon: Arc<egui::IconData>,
 }
 
@@ -66,6 +71,9 @@ impl App {
             notice: None,
             show_registers: settings.show_registers,
             registers_pos: None,
+            show_program: settings.show_program,
+            program_pos: None,
+            program_editor: ProgramEditor::new(),
             window_icon: Arc::new(icon::calculator_icon()),
             saved_settings: settings.clone(),
             settings,
@@ -104,11 +112,44 @@ impl App {
         }
     }
 
+    fn toggle_program(&mut self) {
+        self.show_program = !self.show_program;
+        if self.show_program {
+            self.program_pos = None;
+        }
+    }
+
+    /// Janela do editor de programas, à direita da calculadora (e dos registradores, se abertos).
+    fn program_window(&mut self, ctx: &egui::Context) {
+        if self.program_pos.is_none() {
+            let offset = if self.show_registers { 404.0 } else { 0.0 };
+            let main = ctx.input(|i| i.viewport().outer_rect);
+            self.program_pos = main.map(|r| [r.max.x + 12.0 + offset, r.min.y]);
+        }
+        let mut builder = egui::ViewportBuilder::default()
+            .with_title("HP-12C — Programa")
+            .with_inner_size([520.0, 660.0])
+            .with_min_inner_size([400.0, 320.0])
+            .with_icon(self.window_icon.clone());
+        if let Some(pos) = self.program_pos {
+            builder = builder.with_position(pos);
+        }
+        let (calc, editor, skin) = (&mut self.calc, &mut self.program_editor, &self.skin);
+        let closed = ctx.show_viewport_immediate(egui::ViewportId::from_hash_of("hp12c-programa"), builder, |ui, _| {
+            egui::CentralPanel::default_margins().show(ui, |ui| editor.show(ui, calc, skin));
+            ui.ctx().input(|i| i.viewport().close_requested())
+        });
+        if closed {
+            self.show_program = false;
+        }
+    }
+
     /// Grava estado e preferências se mudaram (memória contínua).
     fn persist(&mut self, ctx: &egui::Context) {
         self.settings.zoom = self.zoom;
         self.settings.always_on_top = self.always_on_top;
         self.settings.show_registers = self.show_registers;
+        self.settings.show_program = self.show_program;
         if let Some(rect) = ctx.input(|i| i.viewport().outer_rect) {
             self.settings.position = Some([rect.min.x, rect.min.y]);
         }
@@ -199,6 +240,12 @@ impl App {
                         }
                         continue;
                     }
+                    if key == egui::Key::F3 {
+                        if pressed {
+                            self.toggle_program();
+                        }
+                        continue;
+                    }
                     let Some(hp) = input::map_key(key) else { continue };
                     if pressed {
                         if !self.keyboard_keys.contains(&hp) {
@@ -246,6 +293,11 @@ impl App {
         let mut show = self.show_registers;
         if ui.checkbox(&mut show, "Registradores  (F2)").clicked() {
             self.toggle_registers();
+            ui.close();
+        }
+        let mut show_program = self.show_program;
+        if ui.checkbox(&mut show_program, "Programa: ver e editar  (F3)").clicked() {
+            self.toggle_program();
             ui.close();
         }
         ui.menu_button("Zoom", |ui| {
@@ -326,6 +378,9 @@ impl eframe::App for App {
         if self.show_registers {
             self.registers_window(&ctx);
         }
+        if self.show_program {
+            self.program_window(&ctx);
+        }
 
         if now - self.last_save_check >= SAVE_INTERVAL {
             self.last_save_check = now;
@@ -337,6 +392,7 @@ impl eframe::App for App {
 
     fn on_exit(&mut self, _gl: Option<&eframe::glow::Context>) {
         self.settings.show_registers = self.show_registers;
+        self.settings.show_program = self.show_program;
         self.settings.zoom = self.zoom;
         self.settings.always_on_top = self.always_on_top;
         storage::save_settings(&self.settings);

@@ -75,6 +75,32 @@ impl Label {
         self.runs.iter().map(|r| r.text.as_str()).collect()
     }
 
+    /// Texto para listas, sem desenho especial: "yˣ", "x²", "CFj", "x̄w", "ŷ,r".
+    pub fn text(&self) -> String {
+        let mut out = String::new();
+        for run in &self.runs {
+            match run.kind {
+                RunKind::Superscript => out.extend(run.text.chars().map(|c| match c {
+                    'x' => 'ˣ',
+                    '2' => '²',
+                    other => other,
+                })),
+                _ => out.push_str(&run.text),
+            }
+        }
+        match (self.first_mark, out.chars().next()) {
+            (Some(Mark::Hat), Some('y')) => out.replacen('y', "ŷ", 1),
+            (Some(mark), Some(first)) => {
+                let combining = if mark == Mark::Bar { COMBINING_MACRON } else { COMBINING_CIRCUMFLEX };
+                let mut marked = String::from(first);
+                marked.push(combining);
+                marked.push_str(&out[first.len_utf8()..]);
+                marked
+            }
+            _ => out,
+        }
+    }
+
     pub fn first_char(&self) -> Option<char> {
         self.runs.first().and_then(|r| r.text.chars().next())
     }
@@ -92,6 +118,15 @@ mod tests {
             Run { text: "x".into(), kind: RunKind::Superscript },
         ]);
         assert_eq!(Label::parse("CF_j").runs[1], Run { text: "j".into(), kind: RunKind::Subscript });
+    }
+
+    #[test]
+    fn texto_legivel() {
+        assert_eq!(Label::parse("y^x").text(), "yˣ");
+        assert_eq!(Label::parse("x^2").text(), "x²");
+        assert_eq!(Label::parse("CF_j").text(), "CFj");
+        assert_eq!(Label::parse("ŷ,r").text(), "ŷ,r");
+        assert_eq!(Label::parse("x̄w").text(), "x\u{0304}w");
     }
 
     #[test]

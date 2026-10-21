@@ -69,6 +69,42 @@ pub(crate) enum Command {
     GotoLine(u8),
 }
 
+/// Linhas alocadas para um programa de `used` linhas: 8, 15, 22, … até 99.
+pub fn capacity_for(used: usize) -> usize {
+    if used <= BASE_LINES {
+        BASE_LINES
+    } else {
+        BASE_LINES + (used - BASE_LINES).div_ceil(LINES_PER_REGISTER) * LINES_PER_REGISTER
+    }
+}
+
+/// Ajusta os destinos de GTO depois de inserir (`delta = 1`) ou apagar (`delta = -1`)
+/// a linha `line` (1 = primeira). GTO 00 nunca muda.
+pub fn shift_gotos(lines: &mut [Instruction], line: usize, delta: i32) {
+    for instruction in lines.iter_mut() {
+        if let Instruction::Goto(target) = instruction {
+            let t = *target as usize;
+            let moves = if delta > 0 { t >= line } else { t > line };
+            if t != 0 && moves {
+                *target = (t as i32 + delta).clamp(0, MAX_LINES as i32) as u8;
+            }
+        }
+    }
+}
+
+/// Troca as referências de GTO entre as linhas `a` e `b` (ao mover uma linha).
+pub fn swap_gotos(lines: &mut [Instruction], a: usize, b: usize) {
+    for instruction in lines.iter_mut() {
+        if let Instruction::Goto(target) = instruction {
+            if *target as usize == a {
+                *target = b as u8;
+            } else if *target as usize == b {
+                *target = a as u8;
+            }
+        }
+    }
+}
+
 /// Lê uma instrução no formato da listagem (ex.: "STO + 1", "g GTO 05").
 pub fn parse_instruction(text: &str) -> Option<Instruction> {
     let tokens: Vec<&str> = text.split_whitespace().map(|t| if t == "GTO" { "Rv" } else { t }).collect();
@@ -146,6 +182,22 @@ mod tests {
         assert_eq!(Instruction::Keys(vec![Pct]).codes(), "25");
         assert_eq!(Instruction::Keys(vec![G, D0]).codes(), "43 0");
         assert_eq!(Instruction::Goto(5).codes(), "43,33 05");
+    }
+
+    #[test]
+    fn capacidade_e_ajuste_de_gto() {
+        assert_eq!(capacity_for(0), 8);
+        assert_eq!(capacity_for(8), 8);
+        assert_eq!(capacity_for(9), 15);
+        assert_eq!(capacity_for(99), 99);
+
+        let mut lines = vec![Instruction::Goto(3), Instruction::Goto(1), Instruction::Goto(0), Instruction::Goto(5)];
+        shift_gotos(&mut lines, 2, 1); // inseriu na linha 2
+        assert_eq!(lines, vec![Instruction::Goto(4), Instruction::Goto(1), Instruction::Goto(0), Instruction::Goto(6)]);
+        shift_gotos(&mut lines, 2, -1); // apagou a linha 2
+        assert_eq!(lines, vec![Instruction::Goto(3), Instruction::Goto(1), Instruction::Goto(0), Instruction::Goto(5)]);
+        swap_gotos(&mut lines, 1, 3);
+        assert_eq!(lines, vec![Instruction::Goto(1), Instruction::Goto(3), Instruction::Goto(0), Instruction::Goto(5)]);
     }
 
     #[test]

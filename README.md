@@ -37,6 +37,10 @@ cargo run --release
 - **Registradores (F2):** janela ao lado da calculadora com a pilha (T, Z, Y, X, LSTx), n/i/PV/PMT/FV,
   R0–R.9 (somatórios Σ em R1–R6, registradores ocupados pelo programa), fluxos de caixa e o
   programa com a linha atual, tudo atualizado a cada tecla.
+- **Programa (F3):** editor do programa gravado. Cada linha aparece com os códigos e a instrução por
+  extenso (`43 35` → `x=0`). Dá para substituir, inserir, apagar e mover linhas (os `GTO` são
+  ajustados sozinhos; há uma opção para manter como na 12C real), ir para uma linha, ou editar tudo
+  como texto. Antes de ocupar um registrador com valor guardado, pede confirmação.
 - **Teclado do PC:**
 
 | PC | HP-12C | PC | HP-12C |
@@ -48,6 +52,7 @@ cargo run --release
 | N, I, P, M, V | n, i, PV, PMT, FV | E | EEX |
 | C | CHS | Esc | cancela f/g/STO/RCL |
 | Ctrl+C / Ctrl+V | copia X / cola em X | F2 | mostra/esconde os registradores |
+| | | F3 | mostra/esconde o editor de programa |
 
 Opções para testes e demonstrações: `HP12C.exe --keys "12 ENTER 3 /"` executa teclas ao abrir, e a
 variável de ambiente `HP12C_CONFIG_DIR` troca a pasta onde ficam memória e preferências.

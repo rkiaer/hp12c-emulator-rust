@@ -285,6 +285,46 @@ impl Calculator {
         self.program.len()
     }
 
+    /// Instruções do programa até a última linha não vazia.
+    pub fn program_instructions(&self) -> &[Instruction] {
+        let used = self.program.iter().rposition(|i| *i != Instruction::EMPTY).map_or(0, |p| p + 1);
+        &self.program[..used]
+    }
+
+    /// Registradores com valor que seriam ocupados por um programa de `used` linhas.
+    pub fn registers_lost_by(&self, used: usize) -> Vec<usize> {
+        let after = STORAGE_REGISTERS
+            - (program::capacity_for(used) - program::BASE_LINES) / program::LINES_PER_REGISTER;
+        (after..self.registers_available()).filter(|&i| !self.registers[i].is_zero()).collect()
+    }
+
+    /// Substitui o programa inteiro (editor de programas). A memória é realocada:
+    /// registradores que passam a ser do programa são zerados. Mais de 99 linhas → Error 4.
+    pub fn set_program(&mut self, lines: Vec<Instruction>) -> Result<(), ErrorCode> {
+        if lines.len() > program::MAX_LINES {
+            return Err(ErrorCode::MEMORY);
+        }
+        let before = self.registers_available();
+        let mut program = lines;
+        program.resize(program::capacity_for(program.len()), Instruction::EMPTY);
+        self.program = program;
+        for index in self.registers_available()..before {
+            self.registers[index] = HpDecimal::ZERO;
+        }
+        if self.pc > self.program.len() {
+            self.pc = 0;
+        }
+        self.recording.clear();
+        Ok(())
+    }
+
+    /// Posiciona o programa na linha `line` (como g GTO nn).
+    pub fn go_to_line(&mut self, line: usize) {
+        if line <= self.program.len() && !self.running {
+            self.pc = line;
+        }
+    }
+
     pub fn is_program_mode(&self) -> bool {
         self.program_mode
     }
@@ -1557,6 +1597,32 @@ mod tests {
         other.tap_all("10 R/S").unwrap();
         assert_eq!(other.display().to_text(), "55.00");
         assert!(other.load_program("# HP-12C programa\n01 STO 9 9\n").is_err());
+    }
+
+    #[test]
+    fn editor_substitui_programa_e_realoca_memoria() {
+        let mut calc = Calculator::new();
+        calc.tap_all("42 STO . 9 7 STO . 8").unwrap();
+        let mut lines: Vec<Instruction> =
+            ["2", "*"].iter().map(|t| program::parse_instruction(t).unwrap()).collect();
+        assert!(calc.registers_lost_by(lines.len()).is_empty());
+        calc.set_program(lines.clone()).unwrap();
+        calc.tap_all("5 R/S").unwrap();
+        assert_eq!(calc.display().to_text(), "10.00");
+
+        // 9 linhas ocupam o R.9 (que tinha 42); R.8 continua livre.
+        lines.extend(std::iter::repeat_n(program::parse_instruction("1").unwrap(), 7));
+        assert_eq!(calc.registers_lost_by(lines.len()), vec![19]);
+        calc.set_program(lines).unwrap();
+        assert_eq!(calc.registers_available(), 19);
+        assert_eq!(calc.register(18), HpDecimal::from_i64(7));
+        assert_eq!(calc.program_instructions().len(), 9);
+
+        // Volta a 2 linhas: o R.9 é devolvido (zerado).
+        calc.set_program(calc.program_instructions()[..2].to_vec()).unwrap();
+        assert_eq!(calc.registers_available(), 20);
+        assert_eq!(calc.register(19), HpDecimal::ZERO);
+        assert!(calc.set_program(vec![Instruction::Goto(1); 100]).is_err());
     }
 
     #[test]

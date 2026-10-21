@@ -394,6 +394,7 @@ footer { padding-block: 48px 64px; color: var(--muted); font-size: 0.9rem; }
             <tr><td><span class="num">Esc</span></td><td>Cancela f, g, STO ou RCL pendente</td></tr>
             <tr><td><span class="num">Ctrl+C</span> <span class="num">Ctrl+V</span></td><td>Copia X · cola número (ou programa) em X</td></tr>
             <tr><td><span class="num">F2</span></td><td>Mostra ou esconde a janela de registradores</td></tr>
+            <tr><td><span class="num">F3</span></td><td>Mostra ou esconde o editor de programa</td></tr>
           </table>
         </div>
       </div>
@@ -599,6 +600,26 @@ footer { padding-block: 48px 64px; color: var(--muted); font-size: 0.9rem; }
           <tr><td><span class="keys" data-keys="f Rv|PRGM"></span></td><td>CLEAR PRGM: no modo de programação, apaga tudo.</td></tr>
           <tr><td><span class="keys" data-keys="g 9|MEM"></span></td><td>Mostra a memória, ex.: <code>P-08 r-20</code> (linhas e registradores livres).</td></tr>
         </table></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:18px;display:grid;gap:12px">
+      <h3>Editor de programa (F3)</h3>
+      <p>Em vez de digitar linha por linha na calculadora, abra o editor com <span class="num">F3</span> (ou botão direito → <em>Programa: ver e editar</em>). Cada linha aparece com os códigos e a instrução por extenso:</p>
+      <pre class="listing">  04  45 0      RCL 0
+▶ 05  44 40 1   STO + 1      <span class="c">← próxima linha a executar</span>
+  09  43 35     x=0
+  10  43,33 12  GTO 12</pre>
+      <div class="grid-2">
+        <ul style="margin:0;padding-left:20px;display:grid;gap:6px">
+          <li>Clique numa linha, digite a nova instrução (ex.: <code>STO + 1</code>, <code>g 0</code>, <code>f n</code>, <code>g GTO 05</code>) e escolha <strong>Substituir linha</strong> ou <strong>Inserir depois</strong>.</li>
+          <li><strong>Apagar linha</strong>, <strong>↑</strong> e <strong>↓</strong> reorganizam o programa.</li>
+          <li><strong>Ir para esta linha</strong> faz o próximo R/S começar ali.</li>
+        </ul>
+        <ul style="margin:0;padding-left:20px;display:grid;gap:6px">
+          <li>Ao inserir, apagar ou mover, os <code>GTO</code> são corrigidos sozinhos. Marque a opção indicada para manter o comportamento da 12C real.</li>
+          <li><strong>Editar como texto</strong> abre o programa inteiro num editor; ao aplicar, tudo é validado e um erro não altera o programa.</li>
+          <li>Se o programa crescer a ponto de ocupar um registrador com valor guardado, o editor avisa e pede confirmação.</li>
+        </ul>
       </div>
     </div>
     <div class="card" style="margin-top:18px;display:grid;gap:14px">

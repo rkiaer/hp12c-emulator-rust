@@ -6,6 +6,7 @@ mod app;
 mod fonts;
 mod icon;
 mod input;
+mod program_window;
 mod registers;
 mod render;
 mod storage;
