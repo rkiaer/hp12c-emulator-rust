@@ -6,6 +6,7 @@ mod app;
 mod fonts;
 mod icon;
 mod input;
+mod registers;
 mod render;
 mod storage;
 
@@ -15,7 +16,14 @@ use hp12c_skin::Skin;
 fn main() -> eframe::Result {
     let skin = Skin::builtin();
     let settings = storage::load_settings();
-    let calc = storage::load_calculator();
+    let mut calc = storage::load_calculator();
+    // `--keys "12 ENTER 3 /"`: executa teclas ao abrir (demonstrações e testes).
+    let args: Vec<String> = std::env::args().collect();
+    if let Some(pos) = args.iter().position(|a| a == "--keys") {
+        if let Some(sequence) = args.get(pos + 1) {
+            let _ = calc.tap_all(sequence);
+        }
+    }
 
     let mut viewport = egui::ViewportBuilder::default()
         .with_title("HP-12C")

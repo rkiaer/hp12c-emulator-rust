@@ -16,15 +16,21 @@ pub struct Settings {
     pub always_on_top: bool,
     /// Canto superior esquerdo da janela, em pontos.
     pub position: Option<[f32; 2]>,
+    /// Janela "Registradores" aberta.
+    pub show_registers: bool,
 }
 
 impl Default for Settings {
     fn default() -> Self {
-        Self { zoom: crate::app::DEFAULT_ZOOM, always_on_top: false, position: None }
+        Self { zoom: crate::app::DEFAULT_ZOOM, always_on_top: false, position: None, show_registers: false }
     }
 }
 
 fn config_dir() -> Option<PathBuf> {
+    // Permite usar outra pasta (testes, versão portátil em pendrive).
+    if let Some(dir) = std::env::var_os("HP12C_CONFIG_DIR") {
+        return Some(PathBuf::from(dir));
+    }
     if cfg!(windows) {
         std::env::var_os("APPDATA").map(|p| PathBuf::from(p).join("HP12C"))
     } else if let Some(xdg) = std::env::var_os("XDG_CONFIG_HOME") {

@@ -257,6 +257,34 @@ impl Calculator {
         self.running
     }
 
+    /// Nj do fluxo de caixa `index` (0 = CFo).
+    pub fn flow_count(&self, index: usize) -> u8 {
+        self.flow_counts[index]
+    }
+
+    /// Índice do último fluxo de caixa (parte inteira de n), se for válido (0–19).
+    pub fn last_flow(&self) -> Option<usize> {
+        self.flow_index()
+    }
+
+    pub fn begin_mode(&self) -> bool {
+        self.begin_mode
+    }
+
+    pub fn dmy_mode(&self) -> bool {
+        self.dmy_mode
+    }
+
+    /// Período fracionário com juros compostos (indicador C).
+    pub fn compound(&self) -> bool {
+        self.compound
+    }
+
+    /// Linhas de programa alocadas (8 a 99).
+    pub fn program_capacity(&self) -> usize {
+        self.program.len()
+    }
+
     pub fn is_program_mode(&self) -> bool {
         self.program_mode
     }

@@ -1,7 +1,8 @@
 //! Janela principal: liga mouse/teclado ao núcleo e desenha o resultado.
 
 use crate::storage::{self, Settings};
-use crate::{fonts, input, render};
+use crate::{fonts, icon, input, registers, render};
+use std::sync::Arc;
 use eframe::egui::{self, Sense, Vec2, ViewportCommand, WindowLevel};
 use hp12c_core::{Calculator, Key};
 use hp12c_skin::Skin;
@@ -36,6 +37,11 @@ pub struct App {
     saved_state: String,
     saved_settings: Settings,
     last_save_check: f64,
+    /// Janela "Registradores" aberta.
+    show_registers: bool,
+    /// Posição inicial da janela de registradores (ao lado da calculadora).
+    registers_pos: Option<[f32; 2]>,
+    window_icon: Arc<egui::IconData>,
 }
 
 /// Intervalo entre verificações de alterações para salvar, em segundos.
@@ -58,9 +64,43 @@ impl App {
             keyboard_keys: Vec::new(),
             flash: None,
             notice: None,
+            show_registers: settings.show_registers,
+            registers_pos: None,
+            window_icon: Arc::new(icon::calculator_icon()),
             saved_settings: settings.clone(),
             settings,
             last_save_check: 0.0,
+        }
+    }
+
+    fn toggle_registers(&mut self) {
+        self.show_registers = !self.show_registers;
+        if self.show_registers {
+            self.registers_pos = None; // reposiciona ao lado da calculadora
+        }
+    }
+
+    /// Janela nativa separada, ao lado da calculadora, com o estado interno.
+    fn registers_window(&mut self, ctx: &egui::Context) {
+        if self.registers_pos.is_none() {
+            let main = ctx.input(|i| i.viewport().outer_rect);
+            self.registers_pos = main.map(|r| [r.max.x + 12.0, r.min.y]);
+        }
+        let mut builder = egui::ViewportBuilder::default()
+            .with_title("HP-12C — Registradores")
+            .with_inner_size([380.0, 660.0])
+            .with_min_inner_size([300.0, 320.0])
+            .with_icon(self.window_icon.clone());
+        if let Some(pos) = self.registers_pos {
+            builder = builder.with_position(pos);
+        }
+        let calc = &self.calc;
+        let closed = ctx.show_viewport_immediate(egui::ViewportId::from_hash_of("hp12c-registradores"), builder, |ui, _| {
+            egui::CentralPanel::default_margins().show(ui, |ui| registers::show(ui, calc));
+            ui.ctx().input(|i| i.viewport().close_requested())
+        });
+        if closed {
+            self.show_registers = false;
         }
     }
 
@@ -68,6 +108,7 @@ impl App {
     fn persist(&mut self, ctx: &egui::Context) {
         self.settings.zoom = self.zoom;
         self.settings.always_on_top = self.always_on_top;
+        self.settings.show_registers = self.show_registers;
         if let Some(rect) = ctx.input(|i| i.viewport().outer_rect) {
             self.settings.position = Some([rect.min.x, rect.min.y]);
         }
@@ -152,6 +193,12 @@ impl App {
                         }
                         continue;
                     }
+                    if key == egui::Key::F2 {
+                        if pressed {
+                            self.toggle_registers();
+                        }
+                        continue;
+                    }
                     let Some(hp) = input::map_key(key) else { continue };
                     if pressed {
                         if !self.keyboard_keys.contains(&hp) {
@@ -196,6 +243,11 @@ impl App {
         }
         ui.label("Colar programa: Ctrl+V com a listagem");
         ui.separator();
+        let mut show = self.show_registers;
+        if ui.checkbox(&mut show, "Registradores  (F2)").clicked() {
+            self.toggle_registers();
+            ui.close();
+        }
         ui.menu_button("Zoom", |ui| {
             for zoom in ZOOMS {
                 let label = format!("{:.0}%", zoom * 100.0);
@@ -271,6 +323,10 @@ impl eframe::App for App {
             }
         }
 
+        if self.show_registers {
+            self.registers_window(&ctx);
+        }
+
         if now - self.last_save_check >= SAVE_INTERVAL {
             self.last_save_check = now;
             self.persist(&ctx);
@@ -280,6 +336,7 @@ impl eframe::App for App {
     }
 
     fn on_exit(&mut self, _gl: Option<&eframe::glow::Context>) {
+        self.settings.show_registers = self.show_registers;
         self.settings.zoom = self.zoom;
         self.settings.always_on_top = self.always_on_top;
         storage::save_settings(&self.settings);
