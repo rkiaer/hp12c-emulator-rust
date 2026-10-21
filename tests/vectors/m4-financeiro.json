@@ -1,0 +1,56 @@
+{
+  "suite": "M4 financeiro",
+  "cases": [
+    { "name": "financiamento de carro (manual): PMT", "keys": "3 g n 10.5 g i 5750 PV PMT", "display": "-186.89", "x": "-186.8890502" },
+    { "name": "hipoteca 25 anos (manual): PMT", "keys": "25 g n 13.25 g i 50000 PV PMT", "display": "-573.35", "x": "-573.3502143" },
+    { "name": "FV", "keys": "10 n 5 i 1000 CHS PV FV", "display": "1,628.89", "x": "1628.894627" },
+    { "name": "FV calculado duas vezes", "keys": "10 n 5 i 1000 CHS PV FV FV", "display": "1,628.89" },
+    { "name": "PV", "keys": "20 n 8 i 1000 CHS PMT PV", "display": "9,818.15", "x": "9818.147407" },
+    { "name": "n arredondado para cima", "keys": "1 i 1000 PV 50 CHS PMT n", "display": "23.00", "x": "23", "confirmar": true },
+    { "name": "i", "keys": "36 n 5750 PV 186.89 CHS PMT i", "display": "0.88", "x": "0.8750291941" },
+    { "name": "i com PV e FV", "keys": "12 n 1000 CHS PV 2000 FV i", "display": "5.95", "x": "5.946309436" },
+    { "name": "PMT antecipado (BEGIN)", "keys": "g 7 12 n 1 i 1000 PV PMT", "display": "-87.97", "x": "-87.96909770" },
+    { "name": "i sem troca de sinal", "keys": "10 n 100 PV 10 PMT i", "display": "Error 5" },
+    { "name": "tecla financeira após número guarda", "keys": "1000 PV RCL PV", "display": "1,000.00" },
+    { "name": "12× guarda em n", "keys": "30 g n RCL n", "display": "360.00" },
+    { "name": "12÷ guarda em i", "keys": "6 g i RCL i", "display": "0.50" },
+
+    { "name": "AMORT 12 meses (manual): juros", "keys": "25 g n 13.25 g i 50000 PV 573.35 CHS PMT 12 f n", "display": "-6,608.89", "x": "-6608.89" },
+    { "name": "AMORT: principal em Y", "keys": "25 g n 13.25 g i 50000 PV 573.35 CHS PMT 12 f n x<>y", "display": "-271.31" },
+    { "name": "AMORT: novo saldo em PV", "keys": "25 g n 13.25 g i 50000 PV 573.35 CHS PMT 12 f n RCL PV", "display": "49,728.69" },
+    { "name": "AMORT: n avança", "keys": "25 g n 13.25 g i 50000 PV 573.35 CHS PMT 12 f n RCL n", "display": "312.00" },
+
+    { "name": "INT 360 dias (manual)", "keys": "450 CHS PV 60 n 7 i f i", "display": "5.25" },
+    { "name": "INT 365 dias", "keys": "450 CHS PV 60 n 7 i f i Rv x<>y", "display": "5.18" },
+    { "name": "INT: principal + juros", "keys": "450 CHS PV 60 n 7 i f i +", "display": "455.25" },
+
+    { "name": "SL ano 3", "keys": "10000 PV 500 FV 5 n 3 f %T", "display": "1,900.00" },
+    { "name": "SL valor restante", "keys": "10000 PV 500 FV 5 n 3 f %T x<>y", "display": "3,800.00" },
+    { "name": "SOYD ano 1", "keys": "10000 PV 500 FV 5 n 1 f D%", "display": "3,166.67" },
+    { "name": "SOYD valor restante", "keys": "10000 PV 500 FV 5 n 1 f D% x<>y", "display": "6,333.33" },
+    { "name": "DB 200% ano 1", "keys": "10000 PV 500 FV 5 n 200 i 1 f %", "display": "4,000.00" },
+    { "name": "DB 200% ano 2", "keys": "10000 PV 500 FV 5 n 200 i 2 f %", "display": "2,400.00" },
+    { "name": "DB valor restante ano 2", "keys": "10000 PV 500 FV 5 n 200 i 2 f % x<>y", "display": "3,100.00" },
+    { "name": "depreciação após a vida útil", "keys": "10000 PV 500 FV 5 n 6 f %T", "display": "Error 5" },
+
+    { "name": "NPV", "keys": "50000 CHS g PV 15000 g PMT 20000 g PMT 2 g FV 10000 g PMT 10 i f PV", "display": "2,021.72", "x": "2021.719828" },
+    { "name": "NPV vai para PV", "keys": "50000 CHS g PV 15000 g PMT 20000 g PMT 2 g FV 10000 g PMT 10 i f PV CLx RCL PV", "display": "2,021.72" },
+    { "name": "IRR", "keys": "50000 CHS g PV 15000 g PMT 20000 g PMT 2 g FV 10000 g PMT f FV", "display": "11.93", "x": "11.92850506" },
+    { "name": "IRR sem troca de sinal", "keys": "100 g PV 10 g PMT f FV", "display": "Error 7" },
+    { "name": "Nj fora de 1–99", "keys": "100 CHS g PV 10 g PMT 100 g FV", "display": "Error 6" },
+    { "name": "RCL g CFj", "keys": "50000 CHS g PV 15000 g PMT RCL g PMT", "display": "15,000.00" },
+
+    { "name": "DATE (manual): 14/05/2004 + 120 dias", "keys": "g 4 14.052004 ENTER 120 g CHS", "display": "11.092004 6" },
+    { "name": "DATE em M.DY", "keys": "5.142004 ENTER 120 g CHS", "display": "9.112004  6" },
+    { "name": "DATE: valor em X", "keys": "5.142004 ENTER 120 g CHS f 6", "display": "9.112004", "x": "9.112004" },
+    { "name": "DATE para trás", "keys": "g 4 11.092004 ENTER 120 CHS g CHS", "display": "14.052004 5" },
+    { "name": "ΔDYS (manual): dias corridos", "keys": "g 4 3.062004 ENTER 14.102005 g EEX", "display": "498.00" },
+    { "name": "ΔDYS: base 30/360", "keys": "g 4 3.062004 ENTER 14.102005 g EEX x<>y", "display": "491.00" },
+    { "name": "data inválida", "keys": "2.302004 ENTER 5 g CHS", "display": "Error 8" },
+
+    { "name": "PRICE", "keys": "4.75 i 6.75 PMT 4.282004 ENTER 6.042018 f y^x", "display": "120.38", "x": "120.3795648", "confirmar": true },
+    { "name": "PRICE: juros acumulados em Y", "keys": "4.75 i 6.75 PMT 4.282004 ENTER 6.042018 f y^x x<>y", "display": "2.69", "confirmar": true },
+    { "name": "PRICE com um cupom restante", "keys": "5 i 6 PMT 4.282004 ENTER 9.152004 f y^x", "display": "100.36", "x": "100.3599420" },
+    { "name": "YTM", "keys": "88.25 PV 6.75 PMT 4.282004 ENTER 6.042018 f 1/x", "display": "8.17", "x": "8.167068716", "confirmar": true }
+  ]
+}

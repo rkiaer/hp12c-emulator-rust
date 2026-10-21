@@ -1,0 +1,18 @@
+[package]
+name = "hp12c-desktop"
+description = "Emulador HP-12C para desktop"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "hp12c"
+path = "src/main.rs"
+
+[dependencies]
+hp12c-core = { path = "../hp12c-core" }
+hp12c-skin = { path = "../hp12c-skin" }
+# glow (OpenGL) gera um executável bem menor que o wgpu (SDD, RNF-05).
+eframe = { version = "0.37.0", default-features = false, features = ["glow", "default_fonts", "clipboard", "x11", "wayland"] }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"

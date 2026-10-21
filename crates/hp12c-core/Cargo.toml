@@ -1,0 +1,14 @@
+[package]
+name = "hp12c-core"
+description = "Núcleo lógico do emulador HP-12C (sem dependências externas)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+# O núcleo não tem dependências de propósito (SDD, RNF-03): facilita o porte para C#.
+[dependencies]
+
+# Usadas só nos testes, para ler os vetores JSON em tests/vectors.
+[dev-dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"

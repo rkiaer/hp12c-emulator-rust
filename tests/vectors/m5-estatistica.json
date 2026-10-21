@@ -1,0 +1,28 @@
+{
+  "suite": "M5 estatística",
+  "cases": [
+    { "name": "Σ+ mostra n", "keys": "5 S+", "display": "1.00" },
+    { "name": "Σ+ desliga a elevação da pilha", "keys": "5 S+ 7 +", "display": "7.00" },
+    { "name": "pares (y ENTER x Σ+)", "keys": "2.1 ENTER 1 S+ 3.9 ENTER 2 S+ 6.2 ENTER 3 S+ 7.8 ENTER 4 S+ 10.1 ENTER 5 S+", "display": "5.00" },
+    { "name": "Σx em R2", "keys": "3 S+ 4 S+ RCL 2", "display": "7.00" },
+    { "name": "Σxy em R6", "keys": "2.1 ENTER 1 S+ 3.9 ENTER 2 S+ 6.2 ENTER 3 S+ 7.8 ENTER 4 S+ 10.1 ENTER 5 S+ RCL 6", "display": "110.20" },
+    { "name": "x̄", "keys": "2.1 ENTER 1 S+ 3.9 ENTER 2 S+ 6.2 ENTER 3 S+ 7.8 ENTER 4 S+ 10.1 ENTER 5 S+ g 0", "display": "3.00" },
+    { "name": "ȳ em Y", "keys": "2.1 ENTER 1 S+ 3.9 ENTER 2 S+ 6.2 ENTER 3 S+ 7.8 ENTER 4 S+ 10.1 ENTER 5 S+ g 0 x<>y", "display": "6.02" },
+    { "name": "sx", "keys": "2.1 ENTER 1 S+ 3.9 ENTER 2 S+ 6.2 ENTER 3 S+ 7.8 ENTER 4 S+ 10.1 ENTER 5 S+ g .", "display": "1.58", "x": "1.581138830" },
+    { "name": "sy em Y", "keys": "2.1 ENTER 1 S+ 3.9 ENTER 2 S+ 6.2 ENTER 3 S+ 7.8 ENTER 4 S+ 10.1 ENTER 5 S+ g . x<>y", "display": "3.15", "x": "3.150714205" },
+    { "name": "ŷ para x = 6", "keys": "2.1 ENTER 1 S+ 3.9 ENTER 2 S+ 6.2 ENTER 3 S+ 7.8 ENTER 4 S+ 10.1 ENTER 5 S+ 6 g 2", "display": "11.99", "x": "11.99" },
+    { "name": "r em Y", "keys": "2.1 ENTER 1 S+ 3.9 ENTER 2 S+ 6.2 ENTER 3 S+ 7.8 ENTER 4 S+ 10.1 ENTER 5 S+ 6 g 2 x<>y f 9", "display": "0.998651756", "x": "0.9986517556" },
+    { "name": "intercepto (ŷ para x = 0)", "keys": "2.1 ENTER 1 S+ 3.9 ENTER 2 S+ 6.2 ENTER 3 S+ 7.8 ENTER 4 S+ 10.1 ENTER 5 S+ 0 g 2", "display": "0.05", "x": "0.05" },
+    { "name": "x̂ para y = 12", "keys": "2.1 ENTER 1 S+ 3.9 ENTER 2 S+ 6.2 ENTER 3 S+ 7.8 ENTER 4 S+ 10.1 ENTER 5 S+ 12 g 1", "display": "6.01", "x": "6.005025126" },
+    { "name": "média ponderada (valor ENTER peso Σ+)", "keys": "1.16 ENTER 15 S+ 1.24 ENTER 7 S+ 1.20 ENTER 10 S+ 1.18 ENTER 17 S+ g 6", "display": "1.19", "x": "1.186530612" },
+    { "name": "uma variável: média", "keys": "2 S+ 4 S+ 9 S+ g 0", "display": "5.00" },
+    { "name": "uma variável: desvio padrão", "keys": "2 S+ 4 S+ 9 S+ g .", "display": "3.61", "x": "3.605551275" },
+    { "name": "Σ− mostra n", "keys": "2 S+ 4 S+ 100 S+ 100 g S+", "display": "2.00" },
+    { "name": "Σ− corrige um valor errado", "keys": "2 S+ 4 S+ 100 S+ 100 g S+ g 0", "display": "3.00" },
+    { "name": "x̄ sem dados", "keys": "g 0", "display": "Error 2" },
+    { "name": "s com um ponto", "keys": "5 S+ g .", "display": "Error 2" },
+    { "name": "x̄w sem dados", "keys": "g 6", "display": "Error 2" },
+    { "name": "regressão com x constante", "keys": "1 ENTER 3 S+ 2 ENTER 3 S+ 5 g 2", "display": "Error 2" },
+    { "name": "CLEAR Σ zera os somatórios", "keys": "3 S+ f SST g 0", "display": "Error 2" }
+  ]
+}

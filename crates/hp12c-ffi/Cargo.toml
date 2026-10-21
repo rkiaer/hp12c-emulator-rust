@@ -1,0 +1,12 @@
+[package]
+name = "hp12c-ffi"
+description = "API C do núcleo HP-12C (DLL para C# via P/Invoke)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+hp12c-core = { path = "../hp12c-core" }

@@ -1,0 +1,33 @@
+{
+  "suite": "M6 programação",
+  "cases": [
+    { "name": "entrar no modo de programação", "keys": "f R/S", "display": "00-" },
+    { "name": "linha com dígito", "keys": "f R/S 2", "display": "01-      2" },
+    { "name": "linha com operação", "keys": "f R/S 2 *", "display": "02-     20" },
+    { "name": "linha com três códigos", "keys": "f R/S STO + 1", "display": "01-44 40 1" },
+    { "name": "linha com prefixo g", "keys": "f R/S g 0", "display": "01-   43 0" },
+    { "name": "linha com GTO", "keys": "f R/S g Rv 05", "display": "01-43,33 05" },
+    { "name": "linha vazia contém GTO 00", "keys": "f R/S SST", "display": "01-43,33 00" },
+    { "name": "SST no modo de programação", "keys": "f R/S 1 2 g Rv . 00 SST", "display": "01-      1" },
+    { "name": "BST no modo de programação", "keys": "f R/S 1 2 g SST", "display": "01-      1" },
+    { "name": "GTO . para linha inexistente", "keys": "f R/S g Rv . 50", "display": "Error 4" },
+
+    { "name": "programa simples (× 2)", "keys": "f R/S 2 * f R/S 5 R/S", "display": "10.00" },
+    { "name": "rodar de novo começa da linha 01", "keys": "f R/S 2 * f R/S 5 R/S R/S", "display": "20.00" },
+    { "name": "laço com x=0 e GTO (soma de 1 a 10)", "keys": "f R/S STO 0 0 STO 1 RCL 0 STO + 1 1 STO - 0 RCL 0 g CLx g Rv 12 g Rv 04 RCL 1 f R/S 10 R/S", "display": "55.00" },
+    { "name": "x≤y verdadeiro executa a linha seguinte", "keys": "f R/S g x<>y x<>y f R/S 7 ENTER 3 R/S", "display": "7.00" },
+    { "name": "x≤y falso pula a linha seguinte", "keys": "f R/S g x<>y x<>y f R/S 3 ENTER 7 R/S", "display": "7.00" },
+    { "name": "R/S no programa para", "keys": "f R/S 1 + R/S 2 * f R/S 5 R/S", "display": "6.00" },
+    { "name": "R/S continua após a parada", "keys": "f R/S 1 + R/S 2 * f R/S 5 R/S R/S", "display": "12.00" },
+    { "name": "PSE não interrompe", "keys": "f R/S 1 + g R/S 2 * f R/S 5 R/S", "display": "12.00" },
+    { "name": "erro para o programa", "keys": "f R/S 0 / 1 + f R/S 5 R/S", "display": "Error 0" },
+    { "name": "GTO no modo de execução", "keys": "f R/S 1 2 3 f R/S g Rv 02 R/S", "display": "23.00" },
+    { "name": "SST executa uma linha por vez", "keys": "f R/S 1 + f R/S 5 SST SST", "display": "6.00" },
+    { "name": "sobrescrever uma linha", "keys": "f R/S 1 2 g Rv . 00 5 f R/S R/S", "display": "52.00" },
+
+    { "name": "MEM inicial", "keys": "g 9", "display": "P-08 r-20" },
+    { "name": "9ª linha converte um registrador", "keys": "f R/S 1 2 3 4 5 6 7 8 9 f R/S g 9", "display": "P-15 r-19" },
+    { "name": "registrador convertido dá Error 6", "keys": "f R/S 1 2 3 4 5 6 7 8 9 f R/S 5 STO . 9", "display": "Error 6" },
+    { "name": "CLEAR PRGM devolve a memória", "keys": "f R/S 1 2 3 4 5 6 7 8 9 f Rv f R/S g 9", "display": "P-08 r-20" }
+  ]
+}

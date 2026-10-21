@@ -1,0 +1,18 @@
+{
+  "suite": "M1 pilha RPN",
+  "cases": [
+    { "name": "quatro níveis", "keys": "1 ENTER 2 ENTER 3 ENTER 4 + + +", "display": "10.00" },
+    { "name": "T é duplicado ao descer", "keys": "1 ENTER 2 ENTER 3 ENTER 4 + + + +", "display": "11.00" },
+    { "name": "constante em T", "keys": "2 ENTER ENTER ENTER * * *", "display": "16.00" },
+    { "name": "R↓", "keys": "1 ENTER 2 ENTER 3 ENTER 4 Rv", "display": "3.00" },
+    { "name": "R↓ quatro vezes volta ao início", "keys": "1 ENTER 2 ENTER 3 ENTER 4 Rv Rv Rv Rv", "display": "4.00" },
+    { "name": "x≷y", "keys": "1 ENTER 2 x<>y", "display": "1.00" },
+    { "name": "x≷y antes de subtrair", "keys": "5 ENTER 2 x<>y -", "display": "-3.00" },
+    { "name": "ENTER desliga a elevação", "keys": "5 ENTER 3 +", "display": "8.00" },
+    { "name": "CLx desliga a elevação", "keys": "5 ENTER CLx 3 +", "display": "8.00" },
+    { "name": "resultado liga a elevação", "keys": "3 ENTER 4 * 5 +", "display": "17.00" },
+    { "name": "CLx zera X", "keys": "7 CLx", "display": "0.00" },
+    { "name": "LSTx", "keys": "5 ENTER 3 + g ENTER", "display": "3.00" },
+    { "name": "LSTx eleva a pilha", "keys": "5 ENTER 3 + g ENTER +", "display": "11.00" }
+  ]
+}

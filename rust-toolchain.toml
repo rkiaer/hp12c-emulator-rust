@@ -1,0 +1,6 @@
+# Toolchain GNU: traz o próprio linker, sem precisar do C++ do Visual Studio.
+# Em Linux/macOS, troque por: channel = "stable"
+[toolchain]
+channel = "stable-x86_64-pc-windows-gnu"
+profile = "minimal"
+components = ["clippy", "rustfmt"]

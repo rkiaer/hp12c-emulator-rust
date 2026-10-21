@@ -1,0 +1,130 @@
+{
+  "name": "HP-12C",
+  "units": "mm",
+  "size": [128.0, 79.0],
+  "corner_radius": 3.5,
+
+  "colors": {
+    "body": "#0e0d0c",
+    "panel": "#1f1b17",
+    "panel_edge": "#3a3229",
+    "metal_top": "#d8c89f",
+    "metal_bottom": "#a99566",
+    "metal_line": "#c3b083",
+    "bezel": "#262422",
+    "bezel_edge": "#4a4640",
+    "lcd": "#b9c0a6",
+    "lcd_shadow": "#8f9681",
+    "segment": "#1a1e16",
+    "segment_ghost": "#b0b79d",
+    "key_top": "#2c2c2c",
+    "key_top_light": "#3a3a3a",
+    "key_face": "#121212",
+    "key_edge": "#000000",
+    "key_pressed": "#1c1c1c",
+    "key_text": "#f4f4f4",
+    "f_label": "#e2a93b",
+    "g_label": "#6bb6ea",
+    "f_key_top": "#e3a53a",
+    "f_key_face": "#a8741f",
+    "g_key_top": "#4f9fdc",
+    "g_key_face": "#2d6ea5",
+    "prefix_key_text": "#101010",
+    "badge_text": "#3b3226",
+    "badge_sub": "#5a4d39"
+  },
+
+  "metal_strip_height": 22.0,
+
+  "lcd": {
+    "bezel": [6.5, 3.2, 81.0, 16.0],
+    "glass": [9.0, 5.2, 76.0, 12.0],
+    "minus_x": 10.6,
+    "first_digit_x": 15.2,
+    "digit_pitch": 6.75,
+    "digit_top": 6.6,
+    "digit_width": 4.1,
+    "digit_height": 6.6,
+    "segment_thickness": 0.78,
+    "slant": 0.09,
+    "annunciator_y": 15.25,
+    "annunciator_size": 1.55,
+    "annunciators": [
+      { "name": "low_battery", "text": "*", "x": 11.6 },
+      { "name": "f", "text": "f", "x": 24.0 },
+      { "name": "g", "text": "g", "x": 30.6 },
+      { "name": "begin", "text": "BEGIN", "x": 41.5 },
+      { "name": "dmy", "text": "D.MY", "x": 52.2 },
+      { "name": "compound", "text": "C", "x": 61.4 },
+      { "name": "prgm", "text": "PRGM", "x": 75.2 }
+    ]
+  },
+
+  "badge": { "text": "12C", "sub": "FINANCIAL CALCULATOR", "x": 107.0, "y": 9.8, "size": 9.0, "sub_size": 1.75, "sub_y": 16.4 },
+
+  "keyboard": {
+    "origin": [6.65, 23.0],
+    "pitch": [11.7, 13.4],
+    "key_size": [9.4, 8.0],
+    "key_offset_y": 4.3,
+    "face_split": 0.66,
+    "key_radius": 0.9,
+    "main_size": 2.75,
+    "digit_size": 3.3,
+    "f_size": 1.75,
+    "g_size": 1.75,
+    "bracket_y": 0.95,
+    "f_label_y": 3.0
+  },
+
+  "keys": [
+    { "key": "n",     "row": 1, "col": 1,  "main": "n",    "f": "AMORT", "g": "12×" },
+    { "key": "i",     "row": 1, "col": 2,  "main": "i",    "f": "INT",   "g": "12÷" },
+    { "key": "PV",    "row": 1, "col": 3,  "main": "PV",   "f": "NPV",   "g": "CF_o" },
+    { "key": "PMT",   "row": 1, "col": 4,  "main": "PMT",  "f": "RND",   "g": "CF_j" },
+    { "key": "FV",    "row": 1, "col": 5,  "main": "FV",   "f": "IRR",   "g": "N_j" },
+    { "key": "CHS",   "row": 1, "col": 6,  "main": "CHS",  "f": "",      "g": "DATE" },
+    { "key": "7",     "row": 1, "col": 7,  "main": "7",    "f": "",      "g": "BEG" },
+    { "key": "8",     "row": 1, "col": 8,  "main": "8",    "f": "",      "g": "END" },
+    { "key": "9",     "row": 1, "col": 9,  "main": "9",    "f": "",      "g": "MEM" },
+    { "key": "/",     "row": 1, "col": 10, "main": "÷",    "f": "",      "g": "" },
+
+    { "key": "y^x",   "row": 2, "col": 1,  "main": "y^x",  "f": "PRICE", "g": "√x" },
+    { "key": "1/x",   "row": 2, "col": 2,  "main": "1/x",  "f": "YTM",   "g": "e^x" },
+    { "key": "%T",    "row": 2, "col": 3,  "main": "%T",   "f": "SL",    "g": "LN" },
+    { "key": "D%",    "row": 2, "col": 4,  "main": "Δ%",   "f": "SOYD",  "g": "FRAC" },
+    { "key": "%",     "row": 2, "col": 5,  "main": "%",    "f": "DB",    "g": "INTG" },
+    { "key": "EEX",   "row": 2, "col": 6,  "main": "EEX",  "f": "",      "g": "ΔDYS" },
+    { "key": "4",     "row": 2, "col": 7,  "main": "4",    "f": "",      "g": "D.MY" },
+    { "key": "5",     "row": 2, "col": 8,  "main": "5",    "f": "",      "g": "M.DY" },
+    { "key": "6",     "row": 2, "col": 9,  "main": "6",    "f": "",      "g": "x̄w" },
+    { "key": "*",     "row": 2, "col": 10, "main": "×",    "f": "",      "g": "x^2" },
+
+    { "key": "R/S",   "row": 3, "col": 1,  "main": "R/S",  "f": "P/R",   "g": "PSE" },
+    { "key": "SST",   "row": 3, "col": 2,  "main": "SST",  "f": "Σ",     "g": "BST" },
+    { "key": "Rv",    "row": 3, "col": 3,  "main": "R↓",   "f": "PRGM",  "g": "GTO" },
+    { "key": "x<>y",  "row": 3, "col": 4,  "main": "x≷y",  "f": "FIN",   "g": "x≤y" },
+    { "key": "CLx",   "row": 3, "col": 5,  "main": "CLx",  "f": "REG",   "g": "x=0" },
+    { "key": "ENTER", "row": 3, "col": 6,  "main": "ENTER","f": "PREFIX","g": "LSTx", "rows": 2, "vertical": true },
+    { "key": "1",     "row": 3, "col": 7,  "main": "1",    "f": "",      "g": "x̂,r" },
+    { "key": "2",     "row": 3, "col": 8,  "main": "2",    "f": "",      "g": "ŷ,r" },
+    { "key": "3",     "row": 3, "col": 9,  "main": "3",    "f": "",      "g": "n!" },
+    { "key": "-",     "row": 3, "col": 10, "main": "−",    "f": "",      "g": "" },
+
+    { "key": "ON",    "row": 4, "col": 1,  "main": "ON",   "f": "",      "g": "" },
+    { "key": "f",     "row": 4, "col": 2,  "main": "f",    "f": "",      "g": "", "style": "gold" },
+    { "key": "g",     "row": 4, "col": 3,  "main": "g",    "f": "",      "g": "", "style": "blue" },
+    { "key": "STO",   "row": 4, "col": 4,  "main": "STO",  "f": "",      "g": "" },
+    { "key": "RCL",   "row": 4, "col": 5,  "main": "RCL",  "f": "",      "g": "" },
+    { "key": "0",     "row": 4, "col": 7,  "main": "0",    "f": "",      "g": "x̄" },
+    { "key": ".",     "row": 4, "col": 8,  "main": "·",    "f": "",      "g": "s" },
+    { "key": "S+",    "row": 4, "col": 9,  "main": "Σ+",   "f": "",      "g": "Σ−" },
+    { "key": "+",     "row": 4, "col": 10, "main": "+",    "f": "",      "g": "" }
+  ],
+
+  "brackets": [
+    { "text": "BOND",         "row": 2, "from_col": 1, "to_col": 2 },
+    { "text": "DEPRECIATION", "row": 2, "from_col": 3, "to_col": 5 },
+    { "text": "CLEAR",        "row": 3, "from_col": 2, "to_col": 5 }
+  ]
+}

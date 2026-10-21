@@ -1,0 +1,24 @@
+# Gera o pacote para distribuir: dist\HP12C-<versão>-windows.zip
+# (executável portátil + README). Uso: pwsh scripts\release.ps1
+$ErrorActionPreference = 'Stop'
+$root = Split-Path $PSScriptRoot -Parent
+Set-Location $root
+
+cargo test --workspace
+if ($LASTEXITCODE -ne 0) { throw 'testes falharam' }
+cargo build --release -p hp12c-desktop
+if ($LASTEXITCODE -ne 0) { throw 'build falhou' }
+
+$version = (Select-String -Path Cargo.toml -Pattern '^version = "(.+)"').Matches[0].Groups[1].Value
+$stage = Join-Path $root "dist\HP12C-$version"
+$zip = Join-Path $root "dist\HP12C-$version-windows.zip"
+
+if (Test-Path $stage) { Remove-Item $stage -Recurse -Force }
+New-Item -ItemType Directory -Force $stage | Out-Null
+Copy-Item target\release\hp12c.exe (Join-Path $stage 'HP12C.exe')
+Copy-Item README.md $stage
+if (Test-Path $zip) { Remove-Item $zip -Force }
+Compress-Archive -Path "$stage\*" -DestinationPath $zip
+
+$size = (Get-Item $zip).Length / 1MB
+"Pacote pronto: $zip ({0:N1} MB)" -f $size

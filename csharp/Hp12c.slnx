@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Hp12c.Interop/Hp12c.Interop.csproj" />
+  <Project Path="Hp12c.VectorTests/Hp12c.VectorTests.csproj" />
+  <Project Path="Hp12c.Wpf/Hp12c.Wpf.csproj" />
+</Solution>

@@ -1,0 +1,16 @@
+[workspace]
+resolver = "2"
+members = ["crates/hp12c-core", "crates/hp12c-skin", "crates/hp12c-desktop", "crates/hp12c-ffi"]
+default-members = ["crates/hp12c-desktop", "crates/hp12c-core", "crates/hp12c-skin", "crates/hp12c-ffi"]
+
+# Executável pequeno (SDD, RNF-05: < 15 MB).
+[profile.release]
+strip = true
+lto = true
+codegen-units = 1
+opt-level = "s"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
