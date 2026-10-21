@@ -1,47 +1,38 @@
-# Emulador HP-12C
+# HP-12C Emulator (Rust)
 
-Emulador da calculadora financeira HP-12C em Rust. Design: [docs/SDD-HP12C.md](docs/SDD-HP12C.md).
+Emulador fiel da calculadora financeira **HP-12C** para Windows: mesmo visual, mesmas teclas,
+lógica RPN e resultados com os mesmos 10 dígitos da máquina. Código aberto, escrito em Rust.
 
-![HP-12C](docs/m2-visual.png)
+![O emulador: calculadora HP-12C com faixa dourada, display de 7 segmentos e as 39 teclas](docs/m2-visual.png)
 
-## Estado
+[![Licença MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-green.svg)](LICENSE)
+![Windows](https://img.shields.io/badge/Windows-10%20%7C%2011-0078D6)
+![Rust](https://img.shields.io/badge/Rust-stable-orange)
 
-- **M1 — Núcleo básico: concluído.** Aritmética decimal de 10 dígitos, pilha RPN, entrada de
-  números (EEX, CHS), formatos FIX/SCI, STO/RCL com aritmética de registrador, CLEAR, LSTx e
-  mensagens de erro.
-- **M2 — Visual: concluído.** Janela sem bordas com a calculadora desenhada em vetor,
-  display de 7 segmentos, mouse, teclado do PC, menu (botão direito), zoom e área de transferência.
-- **M3 — Matemática: concluído.** yˣ, 1/x, √x, eˣ, LN, n!, x², FRAC, INTG, RND, %, Δ%, %T e LSTx.
-  Contas internas com 19 dígitos, arredondadas para os 10 da calculadora.
-- **M4 — Financeiro: concluído.** n, i, PV, PMT, FV (BEGIN/END, período fracionário), 12×, 12÷,
-  CFo/CFj/Nj, NPV, IRR, AMORT, INT, SL/SOYD/DB, PRICE/YTM, DATE e ΔDYS.
-- **M5 — Estatística: concluído.** Σ+, Σ−, x̄, s, x̄w, x̂,r e ŷ,r (somatórios em R1–R6).
-- **M6 — Programação: concluído.** P/R, R/S, SST, BST, GTO, GTO ., PSE, x≤y, x=0, MEM e
-  CLEAR PRGM. Até 99 linhas, compartilhando memória com os registradores, como na 12C original.
-  Programas podem ser copiados e colados como texto (menu do botão direito / Ctrl+V).
-- **M7 — Acabamento: concluído.** Memória contínua (o estado é salvo sozinho e volta ao abrir),
-  zoom, "sempre no topo" e posição da janela lembrados, testes de inicialização, ícone e pacote
-  portátil (`scripts/release.ps1`).
-- **M8 — C#: concluído (protótipo).** DLL `hp12c_ffi.dll` com API C, biblioteca C#
-  `Hp12c.Interop`, os 240 vetores aprovados também pelo C#, e um protótipo WPF que usa o
-  mesmo `skin.json`.
+> *English summary at the end of this page.*
 
-## Usar
+## Baixar e usar
 
-```bash
-cargo run --release
-```
+1. Baixe o `HP12C-<versão>-windows.zip` na página de **[Releases](https://github.com/rkiaer/hp12c-emulator-rust/releases/latest)**.
+2. Descompacte e abra o `HP12C.exe`. Não precisa instalar nada (é um único arquivo de ~5 MB).
+3. Clique nas teclas com o mouse ou use o teclado do computador.
 
-- **Mouse:** clique nas teclas. Clique fora das teclas e arraste para mover a janela.
-- **Botão direito:** copiar X, zoom (75–300%), sempre no topo, registradores, testes, sair.
-- **Registradores (F2):** janela ao lado da calculadora com a pilha (T, Z, Y, X, LSTx), n/i/PV/PMT/FV,
-  R0–R.9 (somatórios Σ em R1–R6, registradores ocupados pelo programa), fluxos de caixa e o
-  programa com a linha atual, tudo atualizado a cada tecla.
-- **Programa (F3):** editor do programa gravado. Cada linha aparece com os códigos e a instrução por
-  extenso (`43 35` → `x=0`). Dá para substituir, inserir, apagar e mover linhas (os `GTO` são
-  ajustados sozinhos; há uma opção para manter como na 12C real), ir para uma linha, ou editar tudo
-  como texto. Antes de ocupar um registrador com valor guardado, pede confirmação.
-- **Teclado do PC:**
+> O Windows pode avisar que o programa é de "editor desconhecido", porque o executável não é
+> assinado digitalmente. Clique em **Mais informações → Executar assim mesmo**.
+
+## O que ele faz
+
+| | |
+|---|---|
+| **Todas as funções da HP-12C original** | Aritmética, matemática (yˣ, LN, eˣ, n!…), juros compostos (n, i, PV, PMT, FV), NPV e IRR, amortização, juros simples, depreciação (SL, SOYD, DB), títulos (PRICE, YTM), datas (DATE, ΔDYS), estatística e regressão linear |
+| **Mesma precisão** | Aritmética decimal de 10 dígitos, como a calculadora. As contas internas usam 19 dígitos e arredondam no fim |
+| **Programação** | Até 99 linhas, P/R, R/S, SST, BST, GTO, testes x≤y e x=0, PSE, memória dividida com os registradores, como no original |
+| **Memória contínua** | Ao fechar e abrir, tudo continua lá: pilha, registradores, programa e modos |
+| **Janela de registradores (F2)** | Mostra a pilha, n/i/PV/PMT/FV, R0–R.9, fluxos de caixa e o programa, ao vivo |
+| **Editor de programa (F3)** | Lista o programa com códigos e nomes (`43 35` → `x=0`); insira, apague, mova linhas ou edite como texto |
+| **Copiar e colar** | Ctrl+C copia o valor de X; Ctrl+V cola um número ou um programa inteiro em texto |
+
+### Teclado do computador
 
 | PC | HP-12C | PC | HP-12C |
 |---|---|---|---|
@@ -49,120 +40,72 @@ cargo run --release
 | `+ - * /` | + − × ÷ | Backspace / Delete | CLx |
 | F / G | f / g | Tab | x≷y |
 | S / R | STO / RCL | D | R↓ |
-| N, I, P, M, V | n, i, PV, PMT, FV | E | EEX |
-| C | CHS | Esc | cancela f/g/STO/RCL |
-| Ctrl+C / Ctrl+V | copia X / cola em X | F2 | mostra/esconde os registradores |
-| | | F3 | mostra/esconde o editor de programa |
+| N, I, P, M, V | n, i, PV, PMT, FV | E / C | EEX / CHS |
+| Ctrl+C / Ctrl+V | copia X / cola | F2 / F3 | registradores / editor de programa |
 
-Opções para testes e demonstrações: `HP12C.exe --keys "12 ENTER 3 /"` executa teclas ao abrir, e a
-variável de ambiente `HP12C_CONFIG_DIR` troca a pasta onde ficam memória e preferências.
+O **botão direito** abre o menu: zoom (75–300%), sempre no topo, copiar programa, registradores,
+editor, "ligar segurando" (autoteste, teste de teclado, ponto/vírgula, apagar memória) e sair.
+Para mover a janela, clique fora das teclas e arraste.
 
-### Memória contínua
+## Manual
 
-Como na calculadora real, nada se perde ao fechar: pilha, registradores, programa e modos
-são salvos em `%APPDATA%\HP12C\state.json` (Linux/macOS: `~/.config/hp12c`). Se o arquivo
-estiver corrompido, a calculadora começa zerada e mostra `Pr Error` (o arquivo antigo fica
-como `state.json.bad`).
+O [manual ilustrado](docs/manual-usuario.html) tem o mapa interativo do teclado, a pilha RPN
+explicada passo a passo, exemplos financeiros com o resultado no display, programação e as
+mensagens de erro. Baixe o arquivo (ou clone o repositório) e abra no navegador.
 
-### Ligar segurando uma tecla
-
-No botão direito, **Ligar segurando…** reproduz as combinações da máquina:
-
-| Combinação | O que faz |
-|---|---|
-| ON + × | Autoteste: acende todos os segmentos e indicadores |
-| ON + ÷ | Teste de teclado: pressione todas as teclas da esquerda para a direita, de cima para baixo (ENTER duas vezes, nas linhas 3 e 4); termina com `12`, ou `Error 9` se errar a ordem |
-| ON + . | Troca ponto/vírgula decimal |
-| ON + − | Apaga toda a memória e mostra `Pr Error` |
-
-### Pacote para distribuir
-
-```bash
-pwsh scripts/release.ps1
-```
-
-Gera `dist/HP12C-<versão>-windows.zip` com o `HP12C.exe` portátil (só depende de DLLs do
-Windows; não precisa instalar nada).
-
-### Programas em texto
-
-"Copiar programa" (botão direito) gera uma listagem como esta; colar (Ctrl+V) um texto que
-comece com `# HP-12C` carrega o programa:
+Um exemplo rápido, o financiamento do manual da HP: carro de 5.750 em 3 anos a 10,5% ao ano.
 
 ```text
-# HP-12C programa
-01 STO 0
-02 0
-03 STO 1
-04 RCL 0
-05 STO + 1
-06 1
-07 STO - 0
-08 RCL 0
-09 g CLx
-10 g GTO 12
-11 g GTO 04
-12 RCL 1
+3  g 12×     (n = 36 meses)
+10.5  g 12÷  (i = 0,875% ao mês)
+5750  PV
+PMT          → -186.89
 ```
 
-(Soma de 1 a N: digite N e pressione R/S. `g CLx` é o teste x=0; `g x<>y` é x≤y.)
+## Fidelidade
 
-## Desenvolvimento
+Os 240 casos de teste (teclas → display esperado) incluem os exemplos do manual da HP e valores
+conferidos com implementações independentes. Ainda assim, alguns detalhes não foram comparados com
+uma HP-12C física, como títulos (PRICE/YTM), o arredondamento de n e o que sobra na pilha depois de
+algumas funções. Eles estão marcados com `"confirmar": true` em [`tests/vectors`](tests/vectors).
+**Se você tem a calculadora e encontrar diferença, abra uma issue com as teclas e o resultado.**
+
+Limites conhecidos: falta o palpite para IRR (`RCL g R/S`), o indicador `running` não pisca durante
+i/IRR (os cálculos são instantâneos), os programas rodam mais rápido que no original e o modo
+algébrico da 12C Platinum não existe.
+
+## Para desenvolvedores
 
 ```bash
 cargo test --workspace
+cargo run --release
 ```
 
-```bash
-cargo run -p hp12c-core --example repl
-```
+O núcleo (`crates/hp12c-core`) não tem dependências e não usa `unsafe`. A interface usa
+[egui](https://github.com/emilk/egui), e a aparência inteira vem de [`assets/skin.json`](assets/skin.json).
+Há também uma DLL com API C e um protótipo em C#/WPF que passa nos mesmos 240 testes.
 
-O `repl` é uma calculadora no terminal, útil para testar o núcleo sem interface.
+Ambiente, estrutura do projeto, testes e porte para C#: **[docs/DESENVOLVIMENTO.md](docs/DESENVOLVIMENTO.md)**.
+Decisões de design: [docs/SDD-HP12C.md](docs/SDD-HP12C.md).
 
-### Ambiente (Windows)
+Contribuições são bem-vindas. Para mudar um comportamento, comece por um caso em `tests/vectors`.
 
-O projeto usa a toolchain GNU do Rust (fixada em `rust-toolchain.toml`), sem precisar do C++ do
-Visual Studio. Ela precisa do MinGW-w64 para gerar bibliotecas de importação:
+## Licença e aviso
 
-```bash
-winget install --id BrechtSanders.WinLibs.POSIX.UCRT -e
-```
+Código sob a [licença MIT](LICENSE). Projeto independente, sem vínculo com a HP Inc.
+"HP" e "12C" são marcas da HP Inc. Nenhum código ou ROM da HP foi usado: o comportamento foi
+reimplementado a partir da documentação pública, e a arte da calculadora foi desenhada do zero.
 
-E, no `~/.cargo/config.toml` do usuário, apontar o `dlltool` do MinGW:
+---
 
-```toml
-[target.x86_64-pc-windows-gnu]
-rustflags = ["-C", "dlltool=<pasta do WinLibs>\\mingw64\\bin\\dlltool.exe"]
-```
+## English summary
 
-## C# (.NET 10)
+A faithful **HP-12C financial calculator emulator** for Windows, written in Rust: same look, same
+keys, RPN logic and the same 10-digit decimal results. It covers every function of the original
+12C: TVM, NPV/IRR, amortization, depreciation, bonds, dates, statistics and keystroke programming,
+plus continuous memory, a live register viewer (F2) and a program editor (F3).
 
-Toda a lógica continua no núcleo em Rust; o C# chama a DLL via P/Invoke.
-
-```bash
-cargo build --release -p hp12c-ffi
-```
-
-```bash
-dotnet run --project csharp/Hp12c.VectorTests
-```
-
-```bash
-dotnet run --project csharp/Hp12c.Wpf
-```
-
-- `crates/hp12c-ffi` — DLL com a API C (`include/hp12c.h`): criar/liberar, teclas, display,
-  textos, estado salvo e programas. Único lugar com código `unsafe`.
-- `csharp/Hp12c.Interop` — classe `Calculator` (IDisposable) sobre a DLL.
-- `csharp/Hp12c.VectorTests` — roda `tests/vectors` pelo C# (precisa dar 240 de 240).
-- `csharp/Hp12c.Wpf` — protótipo de interface. `HP12C.Wpf.exe --snapshot saida.png "12 ENTER 3 /"`
-  gera uma imagem sem abrir janela. Usa o mesmo `state.json` da versão Rust (não rode as duas ao
-  mesmo tempo: a última a fechar grava por cima).
-
-## Estrutura
-
-- `crates/hp12c-core` — lógica da calculadora, sem dependências externas.
-- `crates/hp12c-skin` — geometria, cores e legendas (lê `assets/skin.json`), sem biblioteca gráfica.
-- `crates/hp12c-desktop` — aplicativo (eframe/egui): desenho, mouse, teclado e menu.
-- `assets/skin.json` — aparência da calculadora (milímetros), reutilizável no futuro porte C#.
-- `tests/vectors` — vetores de teste (teclas → display esperado), compartilhados com o porte C#.
+**Download:** grab `HP12C-<version>-windows.zip` from [Releases](https://github.com/rkiaer/hp12c-emulator-rust/releases/latest), unzip
+and run `HP12C.exe` (portable, no install). **Build:** `cargo run --release`, see
+[docs/DESENVOLVIMENTO.md](docs/DESENVOLVIMENTO.md). The UI and docs are in Portuguese. MIT licensed.
+Not affiliated with HP Inc.
