@@ -62,9 +62,16 @@ Um exemplo rápido, o financiamento do manual da HP: carro de 5.750 em 3 anos a 
 PMT          → -186.89
 ```
 
+## Programas de exemplo
+
+A pasta [`examples/programas`](examples/programas) tem programas prontos. Copie o texto do arquivo,
+clique na calculadora e pressione **Ctrl+V**. O primeiro é a **taxa equivalente**: converte juros
+compostos entre períodos (12% ao ano → `12 ENTER 12 R/S` → 0,9489% ao mês; 1% ao mês →
+`1 ENTER 12 1/x R/S` → 12,6825% ao ano).
+
 ## Fidelidade
 
-Os 240 casos de teste (teclas → display esperado) incluem os exemplos do manual da HP e valores
+Os 242 casos de teste (teclas → display esperado) incluem os exemplos do manual da HP e valores
 conferidos com implementações independentes. Ainda assim, alguns detalhes não foram comparados com
 uma HP-12C física, como títulos (PRICE/YTM), o arredondamento de n e o que sobra na pilha depois de
 algumas funções. Eles estão marcados com `"confirmar": true` em [`tests/vectors`](tests/vectors).
@@ -83,7 +90,7 @@ cargo run --release
 
 O núcleo (`crates/hp12c-core`) não tem dependências e não usa `unsafe`. A interface usa
 [egui](https://github.com/emilk/egui), e a aparência inteira vem de [`assets/skin.json`](assets/skin.json).
-Há também uma DLL com API C e um protótipo em C#/WPF que passa nos mesmos 240 testes.
+Há também uma DLL com API C e um protótipo em C#/WPF que passa nos mesmos 242 testes.
 
 Ambiente, estrutura do projeto, testes e porte para C#: **[docs/DESENVOLVIMENTO.md](docs/DESENVOLVIMENTO.md)**.
 Decisões de design: [docs/SDD-HP12C.md](docs/SDD-HP12C.md).

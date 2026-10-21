@@ -730,8 +730,9 @@ impl Calculator {
         self.recording.clear();
         let mut result = Ok(());
         for (number, raw) in listing.lines().enumerate() {
-            let line = raw.trim();
-            if line.is_empty() || line.starts_with('#') {
+            // Comentários depois de '#' são ignorados (linhas inteiras ou no fim da instrução).
+            let line = raw.split('#').next().unwrap_or("").trim();
+            if line.is_empty() {
                 continue;
             }
             // O primeiro campo é o número da linha.
@@ -1597,6 +1598,9 @@ mod tests {
         other.tap_all("10 R/S").unwrap();
         assert_eq!(other.display().to_text(), "55.00");
         assert!(other.load_program("# HP-12C programa\n01 STO 9 9\n").is_err());
+        // Comentários no fim da linha são ignorados.
+        other.load_program("# HP-12C programa\n01 2       # dois\n02 *  # vezes\n").unwrap();
+        assert_eq!(other.program_instructions().len(), 2);
     }
 
     #[test]

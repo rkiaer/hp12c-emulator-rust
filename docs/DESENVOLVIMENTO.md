@@ -9,7 +9,7 @@
 | `crates/hp12c-desktop` | Aplicativo (eframe/egui): desenho vetorial, mouse, teclado, menu, janelas de registradores e de programa |
 | `crates/hp12c-ffi` | DLL com API C (`include/hp12c.h`) para usar o núcleo a partir de C# ou C |
 | `csharp/` | Biblioteca `Hp12c.Interop`, executor dos vetores em C# e protótipo WPF |
-| `tests/vectors` | 240 casos "teclas → display esperado", usados pelo Rust e pelo C# |
+| `tests/vectors` | 242 casos "teclas → display esperado", usados pelo Rust e pelo C# |
 | `assets/skin.json` | Aparência da calculadora, em milímetros |
 | `docs/` | Documento de design (SDD), manual ilustrado e este guia |
 
@@ -77,7 +77,7 @@ dotnet run --project csharp/Hp12c.Wpf
 ```
 
 - `Hp12c.Interop`: classe `Calculator` (IDisposable) sobre a DLL.
-- `Hp12c.VectorTests`: roda `tests/vectors` pelo C# e precisa dar 240 de 240.
+- `Hp12c.VectorTests`: roda `tests/vectors` pelo C# e precisa dar 242 de 242.
 - `Hp12c.Wpf`: protótipo de interface com o mesmo `skin.json`.
   `HP12C.Wpf.exe --snapshot saida.png "12 ENTER 3 /"` gera uma imagem sem abrir janela.
 

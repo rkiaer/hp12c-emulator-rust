@@ -24,6 +24,8 @@
     { "name": "GTO no modo de execução", "keys": "f R/S 1 2 3 f R/S g Rv 02 R/S", "display": "23.00" },
     { "name": "SST executa uma linha por vez", "keys": "f R/S 1 + f R/S 5 SST SST", "display": "6.00" },
     { "name": "sobrescrever uma linha", "keys": "f R/S 1 2 g Rv . 00 5 f R/S R/S", "display": "52.00" },
+    { "name": "exemplo taxa equivalente: 12% a.a. ao mês", "keys": "f R/S 1/x x<>y 1 0 0 / 1 + x<>y y^x 1 - 1 0 0 * f R/S f 4 12 ENTER 12 R/S", "display": "0.9489", "x": "0.9488793" },
+    { "name": "exemplo taxa equivalente: 1% a.m. ao ano", "keys": "f R/S 1/x x<>y 1 0 0 / 1 + x<>y y^x 1 - 1 0 0 * f R/S f 4 1 ENTER 12 1/x R/S", "display": "12.6825" },
 
     { "name": "MEM inicial", "keys": "g 9", "display": "P-08 r-20" },
     { "name": "9ª linha converte um registrador", "keys": "f R/S 1 2 3 4 5 6 7 8 9 f R/S g 9", "display": "P-15 r-19" },

@@ -1,0 +1,26 @@
+# HP-12C programa
+# Taxa equivalente (juros compostos)
+#
+# Uso:  taxa %  ENTER  k  R/S   ->  taxa equivalente %
+#   k = quantos períodos curtos cabem no período da taxa informada.
+#   12% ao ano -> ao mês:   12 ENTER 12 R/S           = 0,9489 %
+#   1% ao mês  -> ao ano:    1 ENTER 12 1/x R/S       = 12,6825 %
+#
+# Fórmula: ((1 + taxa/100) ^ (1/k) - 1) x 100
+# Pilha ao começar: Y = taxa %, X = k
+01 1/x          # X = 1/k
+02 x<>y         # X = taxa, Y = 1/k
+03 1
+04 0
+05 0            # 100
+06 /            # taxa / 100
+07 1
+08 +            # 1 + taxa/100
+09 x<>y         # X = 1/k, Y = 1 + taxa/100
+10 y^x          # (1 + taxa/100) ^ (1/k)
+11 1
+12 -
+13 1
+14 0
+15 0
+16 *            # resultado em %
