@@ -5,6 +5,7 @@
 mod app;
 mod fonts;
 mod icon;
+mod icon_art;
 mod input;
 mod manual;
 mod program_window;
