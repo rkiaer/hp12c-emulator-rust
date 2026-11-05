@@ -2,7 +2,7 @@
 
 use crate::storage::{self, Settings};
 use crate::program_window::ProgramEditor;
-use crate::{fonts, icon, input, registers, render};
+use crate::{fonts, icon, input, manual, registers, render};
 use std::sync::Arc;
 use eframe::egui::{self, Sense, Vec2, ViewportCommand, WindowLevel};
 use hp12c_core::{Calculator, Key};
@@ -180,6 +180,13 @@ impl App {
         ctx.request_repaint_after(Duration::from_secs_f64(NOTICE_SECONDS));
     }
 
+    fn open_manual(&mut self, ctx: &egui::Context) {
+        match manual::open() {
+            Ok(()) => self.notify(ctx, "Abrindo o manual"),
+            Err(_) => self.notify(ctx, "Manual não abriu"),
+        }
+    }
+
     fn paste(&mut self, ctx: &egui::Context, text: &str) {
         if text.trim_start().starts_with(PROGRAM_HEADER) {
             match self.calc.load_program(text) {
@@ -231,6 +238,12 @@ impl App {
                     if key == egui::Key::Escape {
                         if pressed {
                             self.calc.cancel_prefix();
+                        }
+                        continue;
+                    }
+                    if key == egui::Key::F1 {
+                        if pressed {
+                            self.open_manual(ctx);
                         }
                         continue;
                     }
@@ -340,6 +353,10 @@ impl App {
             ui.close();
         }
         ui.separator();
+        if ui.button("Manual ilustrado  (F1)").clicked() {
+            self.open_manual(ui.ctx());
+            ui.close();
+        }
         if ui.button("Sair").clicked() {
             ui.ctx().send_viewport_cmd(ViewportCommand::Close);
         }

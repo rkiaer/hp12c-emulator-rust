@@ -34,7 +34,7 @@ impl Default for Settings {
     }
 }
 
-fn config_dir() -> Option<PathBuf> {
+pub fn config_dir() -> Option<PathBuf> {
     // Permite usar outra pasta (testes, versão portátil em pendrive).
     if let Some(dir) = std::env::var_os("HP12C_CONFIG_DIR") {
         return Some(PathBuf::from(dir));

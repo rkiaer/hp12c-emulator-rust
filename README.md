@@ -42,16 +42,18 @@ lógica RPN e resultados com os mesmos 10 dígitos da máquina. Código aberto, 
 | S / R | STO / RCL | D | R↓ |
 | N, I, P, M, V | n, i, PV, PMT, FV | E / C | EEX / CHS |
 | Ctrl+C / Ctrl+V | copia X / cola | F2 / F3 | registradores / editor de programa |
+| F1 | manual ilustrado | Esc | cancela f, g, STO, RCL |
 
 O **botão direito** abre o menu: zoom (75–300%), sempre no topo, copiar programa, registradores,
-editor, "ligar segurando" (autoteste, teste de teclado, ponto/vírgula, apagar memória) e sair.
+editor, manual, "ligar segurando" (autoteste, teste de teclado, ponto/vírgula, apagar memória) e sair.
 Para mover a janela, clique fora das teclas e arraste.
 
 ## Manual
 
 O [manual ilustrado](docs/manual-usuario.html) tem o mapa interativo do teclado, a pilha RPN
 explicada passo a passo, exemplos financeiros com o resultado no display, programação e as
-mensagens de erro. Baixe o arquivo (ou clone o repositório) e abra no navegador.
+mensagens de erro. Ele vem dentro do programa: pressione **F1** (ou botão direito → *Manual ilustrado*)
+e ele abre no navegador, mesmo sem internet.
 
 Um exemplo rápido, o financiamento do manual da HP: carro de 5.750 em 3 anos a 10,5% ao ano.
 
