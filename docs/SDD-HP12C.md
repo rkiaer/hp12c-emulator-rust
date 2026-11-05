@@ -253,7 +253,8 @@ Os resultados serão validados contra **todos os exemplos do Owner's Handbook e 
 
 ### 5.5 Persistência
 
-- Estado salvo em `%APPDATA%\HP12C\state.json` (Windows) / `~/.config/hp12c/` (Linux).
+- Estado salvo em `state.json`, na pasta do executável (modo portátil, desde a v0.1.1). Se a
+  pasta não aceitar gravação: `%APPDATA%\HP12C\` (Windows) / `~/.config/hp12c/` (Linux).
 - JSON com campo `version` para migrações futuras; mesmo formato lido pela versão C#.
 
 ---

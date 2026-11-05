@@ -14,7 +14,8 @@ lógica RPN e resultados com os mesmos 10 dígitos da máquina. Código aberto, 
 ## Baixar e usar
 
 1. Baixe o `HP12C-<versão>-windows.zip` na página de **[Releases](https://github.com/rkiaer/hp12c-emulator-rust/releases/latest)**.
-2. Descompacte e abra o `HP12C.exe`. Não precisa instalar nada (é um único arquivo de ~5 MB).
+2. Descompacte e abra o `HP12C.exe`. Não precisa instalar nada. A pasta traz também o manual
+   (`manual\`) e os programas de exemplo (`exemplos\`).
 3. Clique nas teclas com o mouse ou use o teclado do computador.
 
 > O Windows pode avisar que o programa é de "editor desconhecido", porque o executável não é
@@ -28,6 +29,7 @@ lógica RPN e resultados com os mesmos 10 dígitos da máquina. Código aberto, 
 | **Mesma precisão** | Aritmética decimal de 10 dígitos, como a calculadora. As contas internas usam 19 dígitos e arredondam no fim |
 | **Programação** | Até 99 linhas, P/R, R/S, SST, BST, GTO, testes x≤y e x=0, PSE, memória dividida com os registradores, como no original |
 | **Memória contínua** | Ao fechar e abrir, tudo continua lá: pilha, registradores, programa e modos |
+| **Portátil** | Memória, preferências e manual ficam na pasta do `HP12C.exe`; leve a pasta para um pendrive e a calculadora vai junto |
 | **Janela de registradores (F2)** | Mostra a pilha, n/i/PV/PMT/FV, R0–R.9, fluxos de caixa e o programa, ao vivo |
 | **Editor de programa (F3)** | Lista o programa com códigos e nomes (`43 35` → `x=0`); insira, apague, mova linhas ou edite como texto |
 | **Copiar e colar** | Ctrl+C copia o valor de X; Ctrl+V cola um número ou um programa inteiro em texto |

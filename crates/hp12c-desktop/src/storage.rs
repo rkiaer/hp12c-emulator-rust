@@ -1,10 +1,13 @@
-//! Arquivos do usuário: memória contínua (state.json) e preferências (settings.json).
-//! Windows: %APPDATA%\HP12C   •   Linux/macOS: $XDG_CONFIG_HOME/hp12c ou ~/.config/hp12c
+//! Arquivos do usuário: memória contínua (state.json), preferências (settings.json) e manual.
+//!
+//! Modo portátil: tudo fica na pasta do executável. Se ela não aceitar gravação
+//! (ex.: Arquivos de Programas), usa %APPDATA%\HP12C (Linux/macOS: ~/.config/hp12c).
 
 use hp12c_core::Calculator;
 use serde::{Deserialize, Serialize};
 use std::fs;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
+use std::sync::OnceLock;
 
 const STATE_FILE: &str = "state.json";
 const SETTINGS_FILE: &str = "settings.json";
@@ -34,17 +37,55 @@ impl Default for Settings {
     }
 }
 
+/// Pasta dos arquivos do usuário, decidida uma vez por execução.
 pub fn config_dir() -> Option<PathBuf> {
-    // Permite usar outra pasta (testes, versão portátil em pendrive).
+    static DIR: OnceLock<Option<PathBuf>> = OnceLock::new();
+    DIR.get_or_init(choose_dir).clone()
+}
+
+fn choose_dir() -> Option<PathBuf> {
+    // Permite usar outra pasta (testes, demonstrações).
     if let Some(dir) = std::env::var_os("HP12C_CONFIG_DIR") {
         return Some(PathBuf::from(dir));
     }
+    let profile = profile_dir();
+    if let Some(dir) = exe_dir().filter(|d| is_writable(d)) {
+        if let Some(old) = &profile {
+            migrate(old, &dir);
+        }
+        return Some(dir);
+    }
+    profile
+}
+
+fn exe_dir() -> Option<PathBuf> {
+    std::env::current_exe().ok()?.parent().map(Path::to_path_buf)
+}
+
+fn profile_dir() -> Option<PathBuf> {
     if cfg!(windows) {
         std::env::var_os("APPDATA").map(|p| PathBuf::from(p).join("HP12C"))
     } else if let Some(xdg) = std::env::var_os("XDG_CONFIG_HOME") {
         Some(PathBuf::from(xdg).join("hp12c"))
     } else {
         std::env::var_os("HOME").map(|h| PathBuf::from(h).join(".config").join("hp12c"))
+    }
+}
+
+fn is_writable(dir: &Path) -> bool {
+    let probe = dir.join(".hp12c-teste-gravacao");
+    let ok = fs::write(&probe, b"").is_ok();
+    let _ = fs::remove_file(&probe);
+    ok
+}
+
+/// Primeira vez no modo portátil: traz a memória salva pelas versões anteriores (%APPDATA%).
+fn migrate(old: &Path, new: &Path) {
+    if old == new || new.join(STATE_FILE).exists() || new.join(SETTINGS_FILE).exists() {
+        return;
+    }
+    for name in [STATE_FILE, SETTINGS_FILE] {
+        let _ = fs::copy(old.join(name), new.join(name));
     }
 }
 

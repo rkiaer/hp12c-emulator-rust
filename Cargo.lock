@@ -938,7 +938,7 @@ checksum = "e17592d60ebacc7d5e169f4663c5f84f9161cc90328abcfe8456f41e4dfcb284"
 
 [[package]]
 name = "hp12c-core"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "serde",
  "serde_json",
@@ -946,7 +946,7 @@ dependencies = [
 
 [[package]]
 name = "hp12c-desktop"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "eframe",
  "hp12c-core",
@@ -957,14 +957,14 @@ dependencies = [
 
 [[package]]
 name = "hp12c-ffi"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "hp12c-core",
 ]
 
 [[package]]
 name = "hp12c-skin"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "hp12c-core",
  "serde",

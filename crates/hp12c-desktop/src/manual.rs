@@ -1,7 +1,8 @@
 //! Manual ilustrado embutido no executável (F1).
 //!
-//! O HTML e a foto vão dentro do .exe. Ao abrir, são gravados numa pasta do usuário
-//! e abertos no navegador padrão, que mostra o mapa interativo do teclado.
+//! O HTML e a foto vão dentro do .exe. Ao abrir, são gravados na pasta `manual`, ao lado
+//! do executável (ou em %APPDATA%\HP12C), e abertos no navegador padrão, que mostra o mapa
+//! interativo do teclado.
 
 use std::fs;
 use std::io;

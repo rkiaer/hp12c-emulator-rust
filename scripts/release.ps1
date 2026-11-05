@@ -1,5 +1,5 @@
 # Gera o pacote para distribuir: dist\HP12C-<versão>-windows.zip
-# (executável portátil + README). Uso: pwsh scripts\release.ps1
+# (executável portátil + manual + programas de exemplo + README). Uso: pwsh scripts\release.ps1
 $ErrorActionPreference = 'Stop'
 $root = Split-Path $PSScriptRoot -Parent
 Set-Location $root
@@ -16,7 +16,12 @@ $zip = Join-Path $root "dist\HP12C-$version-windows.zip"
 if (Test-Path $stage) { Remove-Item $stage -Recurse -Force }
 New-Item -ItemType Directory -Force $stage | Out-Null
 Copy-Item target\release\hp12c.exe (Join-Path $stage 'HP12C.exe')
-Copy-Item README.md $stage
+Copy-Item README.md, LICENSE $stage
+# Mesma pasta que o F1 usa, para o manual já estar lá antes de abrir o programa.
+$manual = New-Item -ItemType Directory -Force (Join-Path $stage 'manual')
+Copy-Item docs\manual-usuario.html, docs\m2-visual.png $manual
+$examples = New-Item -ItemType Directory -Force (Join-Path $stage 'exemplos')
+Copy-Item examples\programas\* $examples
 if (Test-Path $zip) { Remove-Item $zip -Force }
 Compress-Archive -Path "$stage\*" -DestinationPath $zip
 

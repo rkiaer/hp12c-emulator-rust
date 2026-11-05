@@ -335,7 +335,7 @@ footer { padding-block: 48px 64px; color: var(--muted); font-size: 0.9rem; }
       <h1>HP-12C <span>no seu computador</span></h1>
       <p class="lead">Emulador fiel da calculadora financeira: mesmas teclas, mesma lógica RPN, mesmos resultados com 10 dígitos.</p>
       <div class="facts">
-        <span class="fact">HP12C.exe portátil · 4,6 MB</span>
+        <span class="fact">HP12C.exe portátil · ~5 MB</span>
         <span class="fact">Windows 10/11</span>
         <span class="fact">Memória contínua</span>
       </div>
@@ -364,13 +364,13 @@ footer { padding-block: 48px 64px; color: var(--muted); font-size: 0.9rem; }
     <div class="section-head">
       <div class="eyebrow" style="color:var(--gold)">1 · Começar</div>
       <h2>Abrir e usar</h2>
-      <p>Não há instalação. O programa é um único arquivo; copie para onde quiser.</p>
+      <p>Não há instalação. Descompacte a pasta onde quiser: a memória, as preferências e este manual ficam todos nela.</p>
     </div>
     <div class="grid-2">
       <div class="card">
         <h3>Primeiros passos</h3>
         <ol class="steps" style="margin-top:14px">
-          <li><span>Abra <code>HP12C.exe</code> (no projeto: <code>dist\HP12C-0.1.0\HP12C.exe</code>). Este manual vem dentro do programa: pressione <span class="num">F1</span> a qualquer momento.</span></li>
+          <li><span>Abra <code>HP12C.exe</code> (no projeto: <code>dist\HP12C-0.1.1\HP12C.exe</code>). Este manual vem dentro do programa: pressione <span class="num">F1</span> a qualquer momento.</span></li>
           <li><span>Clique nas teclas com o mouse. A tecla afunda enquanto está pressionada.</span></li>
           <li><span>Para mover a janela, clique fora das teclas (na faixa dourada ou na borda) e arraste.</span></li>
           <li><span>Botão direito abre o menu: zoom, sempre no topo, copiar X, programas, testes, manual e sair.</span></li>
@@ -661,7 +661,7 @@ footer { padding-block: 48px 64px; color: var(--muted); font-size: 0.9rem; }
     <div class="grid-2">
       <div class="card">
         <h3>Onde fica</h3>
-        <p style="margin-top:8px"><code>%APPDATA%\HP12C\state.json</code> (estado) e <code>settings.json</code> (janela). Se o arquivo estiver danificado, a calculadora começa zerada mostrando <code>Pr Error</code> e guarda o arquivo antigo como <code>state.json.bad</code>.</p>
+        <p style="margin-top:8px">Na <strong>mesma pasta do HP12C.exe</strong>: <code>state.json</code> (estado), <code>settings.json</code> (janela) e a pasta <code>manual</code>. Leve a pasta inteira para outro computador ou pendrive e a calculadora vai junto. Se a pasta não aceitar gravação (por exemplo, em Arquivos de Programas), os arquivos vão para <code>%APPDATA%\HP12C</code>. Se o arquivo estiver danificado, a calculadora começa zerada mostrando <code>Pr Error</code> e guarda o arquivo antigo como <code>state.json.bad</code>.</p>
       </div>
       <div class="card">
         <h3>Ligar segurando uma tecla</h3>
@@ -695,7 +695,7 @@ footer { padding-block: 48px 64px; color: var(--muted); font-size: 0.9rem; }
 </main>
 
 <footer class="wrap">
-  Emulador HP-12C · versão 0.1.0 · Projeto independente, sem vínculo com a HP. "HP" e "12C" são marcas da HP Inc.
+  Emulador HP-12C · versão 0.1.1 · Projeto independente, sem vínculo com a HP. "HP" e "12C" são marcas da HP Inc.
 </footer>
 
 <script>
